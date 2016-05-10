@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -32,13 +33,14 @@ public class AgendaController implements Initializable {
 
     private Agenda agenda;
     private int indexes;
+    private String novaFoto;
 
     @FXML
     private Button alterar;
     @FXML
     private Button criarContato;
     @FXML
-    private ImageView novaFoto;
+    private ImageView novaFotoView;
     @FXML
     private TextField nomeTxtField;
     @FXML
@@ -84,7 +86,15 @@ public class AgendaController implements Initializable {
         this.indexes = 0;
         atualizarBoxs();
         File file = new File("src/main/resources/images/NoPhoto.png");
-        novaFoto.setImage(new Image(file.toURI().toString()));
+        novaFotoView.setImage(new Image(file.toURI().toString()));
+    }
+    
+    @FXML
+    private void handleBtnAdicionarFoto(ActionEvent ev) {
+        FileChooser fc = new FileChooser();
+        File file = fc.showOpenDialog(new Stage());
+        novaFoto = file.getPath();
+        novaFotoView.setImage(new Image(file.toURI().toString()));
     }
 
     @FXML
@@ -103,8 +113,10 @@ public class AgendaController implements Initializable {
         ruaTxtField.setText("");
         estadoTxtField.setText("");
         lagradouroTxtField.setText("");
+        File file = new File("src/main/resources/images/NoPhoto.png");
+            novaFotoView.setImage(new Image(file.toURI().toString()));
         agenda.adicionaContato(new Contato(this.agenda.getContatos().size(),
-                nome, telefone, email, cidade, rua, estado, lagradouro, "src/main/resources/images/NoPhoto.png"));
+                nome, telefone, email, cidade, rua, estado, lagradouro, novaFoto));
         atualizarBoxs();
     }
 
@@ -160,7 +172,7 @@ public class AgendaController implements Initializable {
             nome2.setText(this.agenda.getContatos().get(indexes + 1).getNome());
             telefone2.setText(this.agenda.getContatos().get(indexes + 1).getTelefone());
             email2.setText(this.agenda.getContatos().get(indexes + 1).getEmail());
-            File file = new File(this.agenda.getContatos().get(indexes).getFoto());
+            File file = new File(this.agenda.getContatos().get(indexes + 1).getFoto());
             foto2.setImage(new Image(file.toURI().toString()));
         } catch (IndexOutOfBoundsException ex) {
             nome2.setText("");
@@ -176,7 +188,7 @@ public class AgendaController implements Initializable {
             nome3.setText(this.agenda.getContatos().get(indexes + 2).getNome());
             telefone3.setText(this.agenda.getContatos().get(indexes + 2).getTelefone());
             email3.setText(this.agenda.getContatos().get(indexes + 2).getEmail());
-            File file = new File(this.agenda.getContatos().get(indexes).getFoto());
+            File file = new File(this.agenda.getContatos().get(indexes + 2).getFoto());
             foto3.setImage(new Image(file.toURI().toString()));
         } catch (IndexOutOfBoundsException ex) {
             nome3.setText("");
