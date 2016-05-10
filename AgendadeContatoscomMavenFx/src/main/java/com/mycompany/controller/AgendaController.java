@@ -10,7 +10,6 @@ import com.mycompany.models.Contato;
 import com.mycompany.models.Correio;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -24,7 +23,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -33,12 +31,14 @@ import javax.imageio.ImageIO;
 public class AgendaController implements Initializable {
 
     private Agenda agenda;
-    private int pagina;
+    private int indexes;
 
     @FXML
     private Button alterar;
     @FXML
     private Button criarContato;
+    @FXML
+    private ImageView novaFoto;
     @FXML
     private TextField nomeTxtField;
     @FXML
@@ -73,17 +73,20 @@ public class AgendaController implements Initializable {
     private TextField email3;
     @FXML
     private ImageView foto1;
+    @FXML
+    private ImageView foto2;
+    @FXML
+    private ImageView foto3;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.agenda = new Correio().receberAgenda();
-        this.agenda.mostrarAgenda();
-        this.pagina = 1;
+        this.indexes = 0;
         atualizarBoxs();
-        File file = new File("src/main/resources/images/Yoda2.jpg");
-        foto1.setImage(new Image(file.toURI().toString()));
+        File file = new File("src/main/resources/images/NoPhoto.png");
+        novaFoto.setImage(new Image(file.toURI().toString()));
     }
-    
+
     @FXML
     private void handleBtnCriarContato(ActionEvent ev) {
         String nome = nomeTxtField.getText();
@@ -93,7 +96,15 @@ public class AgendaController implements Initializable {
         String rua = ruaTxtField.getText();
         String estado = estadoTxtField.getText();
         String lagradouro = lagradouroTxtField.getText();
-        agenda.adicionaContato(new Contato(nome, telefone, email, cidade, rua, rua, lagradouro, ""));
+        nomeTxtField.setText("");
+        telefoneTxtField.setText("");
+        emailTxtField.setText("");
+        cidadeTxtField.setText("");
+        ruaTxtField.setText("");
+        estadoTxtField.setText("");
+        lagradouroTxtField.setText("");
+        agenda.adicionaContato(new Contato(this.agenda.getContatos().size(),
+                nome, telefone, email, cidade, rua, estado, lagradouro, "src/main/resources/images/NoPhoto.png"));
         atualizarBoxs();
     }
 
@@ -107,31 +118,72 @@ public class AgendaController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    
-    public void atualizarBoxs() {
-        try {
-            box1(this.agenda.getContatos().get(0));
-            box2(this.agenda.getContatos().get(1));
-            box3(this.agenda.getContatos().get(2));
-        } catch (IndexOutOfBoundsException ex) {
+
+    public void handleBtnNext(ActionEvent ev) {
+        if (this.indexes < this.agenda.getContatos().size() -3) {
+            this.indexes += 3;
+            atualizarBoxs();
         }
     }
 
-    public void box1(Contato contato) {
-        nome1.setText(contato.getNome());
-        telefone1.setText(contato.getTelefone());
-        email1.setText(contato.getEmail());
+    public void handleBtnBack(ActionEvent ev) {
+        if (this.indexes >= 3) {
+            this.indexes -= 3;
+            atualizarBoxs();
+        }
     }
 
-    public void box2(Contato contato) {
-        nome2.setText(contato.getNome());
-        telefone2.setText(contato.getTelefone());
-        email2.setText(contato.getEmail());
+    public void atualizarBoxs() {
+        box1();
+        box2();
+        box3();
     }
 
-    public void box3(Contato contato) {
-        nome3.setText(contato.getNome());
-        telefone3.setText(contato.getTelefone());
-        email3.setText(contato.getEmail());
+    public void box1() {
+        try {
+            nome1.setText(this.agenda.getContatos().get(indexes).getNome());
+            telefone1.setText(this.agenda.getContatos().get(indexes).getTelefone());
+            email1.setText(this.agenda.getContatos().get(indexes).getEmail());
+            File file = new File(this.agenda.getContatos().get(indexes).getFoto());
+            foto1.setImage(new Image(file.toURI().toString()));
+        } catch (IndexOutOfBoundsException ex) {
+            nome1.setText("");
+            telefone1.setText("");
+            email1.setText("");
+            File file = new File("src/main/resources/images/NoPhoto.png");
+            foto1.setImage(new Image(file.toURI().toString()));
+        }
+    }
+
+    public void box2() {
+        try {
+            nome2.setText(this.agenda.getContatos().get(indexes + 1).getNome());
+            telefone2.setText(this.agenda.getContatos().get(indexes + 1).getTelefone());
+            email2.setText(this.agenda.getContatos().get(indexes + 1).getEmail());
+            File file = new File(this.agenda.getContatos().get(indexes).getFoto());
+            foto2.setImage(new Image(file.toURI().toString()));
+        } catch (IndexOutOfBoundsException ex) {
+            nome2.setText("");
+            telefone2.setText("");
+            email2.setText("");
+            File file = new File("src/main/resources/images/NoPhoto.png");
+            foto2.setImage(new Image(file.toURI().toString()));
+        }
+    }
+
+    public void box3() {
+        try {
+            nome3.setText(this.agenda.getContatos().get(indexes + 2).getNome());
+            telefone3.setText(this.agenda.getContatos().get(indexes + 2).getTelefone());
+            email3.setText(this.agenda.getContatos().get(indexes + 2).getEmail());
+            File file = new File(this.agenda.getContatos().get(indexes).getFoto());
+            foto3.setImage(new Image(file.toURI().toString()));
+        } catch (IndexOutOfBoundsException ex) {
+            nome3.setText("");
+            telefone3.setText("");
+            email3.setText("");
+            File file = new File("src/main/resources/images/NoPhoto.png");
+            foto3.setImage(new Image(file.toURI().toString()));
+        }
     }
 }

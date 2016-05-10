@@ -33,10 +33,12 @@ public class Correio {
     }
 
     public Correio(Agenda agenda) {
+        
         this.morphia = new Morphia();
         morphia.mapPackage("com.mycompany.models");
         datastore = morphia.createDatastore(new MongoClient(), "Agenda_de_Contatos");
         datastore.ensureIndexes();
+        
         this.agenda = agenda;
     }
     
