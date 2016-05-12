@@ -5,12 +5,19 @@
  */
 package com.mycompany.models;
 
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+
 /**
  *
  * @author freeman
  */
+@Entity("Contato")
 public class Contato {
-    private int id;
+    
+    @Id
+    private ObjectId id;
     private String nome;
     private String telefone;
     private String email;
@@ -23,18 +30,8 @@ public class Contato {
     public Contato() {
     }
 
-    public Contato(int id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
-
-    public Contato(String nome, String telefone) {
-        this.nome = nome;
-        this.telefone = telefone;
-    }
-    
-    public Contato(int id, String nome, String telefone, String email, String cidade, String rua, String uf, String lagradouro, String foto) {
-        this.id = id;
+    public Contato(String nome, String telefone, String email, String cidade,
+            String rua, String uf, String lagradouro, String foto) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -45,23 +42,8 @@ public class Contato {
         this.foto = foto;
     }
 
-    public Contato(String nome, String telefone, String email, String cidade, String rua, String uf, String lagradouro, String foto) {
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-        this.cidade = cidade;
-        this.rua = rua;
-        this.uf = uf;
-        this.lagradouro = lagradouro;
-        this.foto = foto;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public ObjectId getId() {
+        return this.id;
     }
 
     public String getNome() {

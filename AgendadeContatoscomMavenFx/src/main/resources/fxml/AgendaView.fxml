@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" minHeight="600.0" minWidth="800.0" prefHeight="643.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.controller.AgendaController">
    <children>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane fx:id="agendaView" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab text="Contatos">
                <content>
@@ -76,12 +76,12 @@
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin></Button>
-                                          <Button fx:id="alterar" mnemonicParsing="false" onAction="#handleBtnAlterar" text="Alterar">
+                                          <Button fx:id="alterarButton1" mnemonicParsing="false" onAction="#handleBtnAlterar" text="Alterar">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" text="Remover" />
+                                          <Button fx:id="removerButton1" mnemonicParsing="false" onAction="#handleBtnRemover" text="Remover" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -151,12 +151,12 @@
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin></Button>
-                                          <Button mnemonicParsing="false" text="Alterar">
+                                          <Button fx:id="alterarButton2" mnemonicParsing="false" onAction="#handleBtnAlterar" text="Alterar">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" text="Remover" />
+                                          <Button fx:id="removerButton2" mnemonicParsing="false" onAction="#handleBtnRemover" text="Remover" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -223,12 +223,12 @@
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin></Button>
-                                          <Button mnemonicParsing="false" text="Alterar">
+                                          <Button fx:id="alterarButton3" mnemonicParsing="false" onAction="#handleBtnAlterar" text="Alterar">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" text="Remover" />
+                                          <Button fx:id="removerButton3" mnemonicParsing="false" onAction="#handleBtnRemover" text="Remover" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
