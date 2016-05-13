@@ -11,13 +11,11 @@ import com.mycompany.models.Correio;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,7 +23,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -44,6 +41,12 @@ public class AgendaController implements Initializable {
 
     @FXML
     private TabPane agendaView;
+    @FXML
+    private Button detalhesButton1;
+    @FXML
+    private Button detalhesButton2;
+    @FXML
+    private Button detalhesButton3;
     @FXML 
     private Button removerButton1;
     @FXML 
@@ -160,6 +163,45 @@ public class AgendaController implements Initializable {
     }
     
     /**
+     * Este metodo é chamado quando o usuário clica em um dos botões Detalhes,
+     * o metodo carrega uma nova janela enviando o contato para que o usuário
+     * vizualize o contato com todos os campos (rua, cidade...).
+     * @param ac
+     * @throws IOException 
+     */
+    @FXML
+    private void handleBtnDetalhes(ActionEvent ac) throws IOException {
+        String buttonTyped = ac.getSource().toString();
+        Stage stage;
+        
+        //Prepara a tela de Detalhes do contato.
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DetalhesView.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+        DetalhesController detalhesController = fxmlLoader.<DetalhesController>getController();
+        
+        //Captura qual botão Detalhes foi precissonado e encaminha o respectivo contato.
+        if(buttonTyped.contains(detalhesButton1.getId())) {
+            stage = (Stage) detalhesButton1.getScene().getWindow();
+            detalhesController.setContato(contato1);
+        }
+        else if (buttonTyped.contains(detalhesButton2.getId())) {
+            stage = (Stage) detalhesButton2.getScene().getWindow();
+            detalhesController.setContato(contato2);
+        }
+        else {
+            stage = (Stage) detalhesButton3.getScene().getWindow();
+            detalhesController.setContato(contato3);
+        }
+        
+        //finaliza e lança a janela Detalhes do Contato.
+        detalhesController.carregarContato();
+        Scene scene = new Scene(root);
+        stage.setTitle("Detalhes");
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    /**
      * Remove o contato de acordo com o botão precionado, ou seja, se o usuário
      * precissionar o "removerButton1" (Botão escrito Remover mais ao topo da 
      * aba Contatos) ele deleta da agenda o primeiro contato que está sendo ixi-
@@ -180,18 +222,44 @@ public class AgendaController implements Initializable {
         atualizarBoxs();
     }
 
+    /**
+     * Este metodo é chamado quando o usuário clica em um dos botões Alterar, 
+     * o metodo carrega uma nova janela enviando o contato para que o usuário
+     * possa alterar os dados do contato.
+     * @param ac
+     * @throws IOException 
+     */
     @FXML
     private void handleBtnAlterar(ActionEvent ac) throws IOException {
         String buttonTyped = ac.getSource().toString();
+        Stage stage;
+        
+        //Prepara a tela de Alterar Contato
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AlterarView.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+        AlterarController alterarController = fxmlLoader.<AlterarController>getController();
+        alterarController.setAgenda(this.agenda);
+        
+        //Captura qual botão alterar foi precissonado e encaminha o respectivo contato.
         if(buttonTyped.contains(alterarButton1.getId())) {
-            
+            stage = (Stage) alterarButton1.getScene().getWindow();
+            alterarController.setContato(contato1);
         }
         else if (buttonTyped.contains(alterarButton2.getId())) {
-            
+            stage = (Stage) alterarButton2.getScene().getWindow();
+            alterarController.setContato(contato2);
         }
         else {
-            
+            stage = (Stage) alterarButton3.getScene().getWindow();
+            alterarController.setContato(contato3);
         }
+        
+        //finaliza e lança a janela Alterar Contato.
+        alterarController.carregarContato();
+        Scene scene = new Scene(root);
+        stage.setTitle("Alterar Contato");
+        stage.setScene(scene);
+        stage.show();
     }
     
     /**
@@ -244,15 +312,20 @@ public class AgendaController implements Initializable {
             email1.setText(this.contato1.getEmail());
             File file = new File(this.contato1.getFoto());
             foto1.setImage(new Image(file.toURI().toString()));
+            detalhesButton1.setDisable(false);
+            alterarButton1.setDisable(false);
+            removerButton1.setDisable(false);
         } catch (IndexOutOfBoundsException ex) {
             nome1.setText("");
             telefone1.setText("");
             email1.setText("");
             File file = new File("src/main/resources/images/NoPhoto.png");
             foto1.setImage(new Image(file.toURI().toString()));
+            detalhesButton1.setDisable(true);
+            alterarButton1.setDisable(true);
+            removerButton1.setDisable(true);
         }
     }
-
     /**
      * veja comentario do metodo box1
      */
@@ -264,12 +337,18 @@ public class AgendaController implements Initializable {
             email2.setText(this.contato2.getEmail());
             File file = new File(this.contato2.getFoto());
             foto2.setImage(new Image(file.toURI().toString()));
+            detalhesButton2.setDisable(false);
+            alterarButton2.setDisable(false);
+            removerButton2.setDisable(false);
         } catch (IndexOutOfBoundsException ex) {
             nome2.setText("");
             telefone2.setText("");
             email2.setText("");
             File file = new File("src/main/resources/images/NoPhoto.png");
             foto2.setImage(new Image(file.toURI().toString()));
+            detalhesButton2.setDisable(true);
+            alterarButton2.setDisable(true);
+            removerButton2.setDisable(true);
         } catch (NullPointerException ex){}
     }
     /**
@@ -283,12 +362,18 @@ public class AgendaController implements Initializable {
             email3.setText(this.contato3.getEmail());
             File file = new File(this.contato3.getFoto());
             foto3.setImage(new Image(file.toURI().toString()));
+            detalhesButton3.setDisable(false);
+            alterarButton3.setDisable(false);
+            removerButton3.setDisable(false);
         } catch (IndexOutOfBoundsException ex) {
             nome3.setText("");
             telefone3.setText("");
             email3.setText("");
             File file = new File("src/main/resources/images/NoPhoto.png");
             foto3.setImage(new Image(file.toURI().toString()));
+            detalhesButton3.setDisable(true);
+            alterarButton3.setDisable(true);
+            removerButton3.setDisable(true);
         }
     }
 }

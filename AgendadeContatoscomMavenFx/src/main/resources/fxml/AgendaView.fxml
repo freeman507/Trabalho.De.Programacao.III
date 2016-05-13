@@ -72,7 +72,7 @@
                                     </HBox>
                                     <HBox alignment="BOTTOM_LEFT" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Detalhes">
+                                          <Button fx:id="detalhesButton1" mnemonicParsing="false" onAction="#handleBtnDetalhes" text="Detalhes">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin></Button>
@@ -147,7 +147,7 @@
                                     </HBox>
                                     <HBox alignment="BOTTOM_LEFT" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Detalhes">
+                                          <Button fx:id="detalhesButton2" mnemonicParsing="false" onAction="#handleBtnDetalhes" text="Detalhes">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin></Button>
@@ -219,7 +219,7 @@
                                     </HBox>
                                     <HBox alignment="BOTTOM_LEFT" minWidth="-Infinity" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Detalhes">
+                                          <Button fx:id="detalhesButton3" mnemonicParsing="false" onAction="#handleBtnDetalhes" text="Detalhes">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin></Button>
